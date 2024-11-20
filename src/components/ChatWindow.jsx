@@ -11,7 +11,6 @@ import * as jose from "jose";
 // VARIABLES GLOBALES
 const supabaseUrl = import.meta.env.VITE_SUPABASE_URL;
 const supabaseKey = import.meta.env.VITE_SUPABASE_KEY;
-const apptitle = import.meta.env.VITE_TITLE;
 const infoToken = jose.decodeJwt(sessionStorage.getItem("token"));
 const UserID = infoToken?.sub || ""; // ID del usuario autenticado
 
@@ -53,8 +52,20 @@ function ChatWindow({ selectedChat }) {
     if (!selectedChat) return;
 
     async function importarMensajes() {
-      const { data, error } = await supabase
-        .from("mensaje")
+      
+          let { data} = await supabase
+          .from('vmesagges5')
+          .select('*')
+          .or(
+            selectedChat.grupo?`receptor.eq.${selectedChat.uid}`:`and(emisor.eq.${UserID},receptor.eq.${selectedChat.uid}),and(emisor.eq.${selectedChat.uid},receptor.eq.${UserID})`
+          )
+          .order("fecha", { ascending: true });
+          setMessages(data);
+
+        
+      /*
+      const { data:vmesagges5, error } = await supabase
+        .from("vmessages5")
         .select("*")
         .or(
           `and(emisor.eq.${UserID},receptor.eq.${selectedChat.uid}),and(emisor.eq.${selectedChat.uid},receptor.eq.${UserID})`
@@ -66,6 +77,7 @@ function ChatWindow({ selectedChat }) {
       } else {
         setMessages(data);
       }
+        */
     }
 
     importarMensajes();
@@ -122,6 +134,8 @@ function ChatWindow({ selectedChat }) {
             emisor={mensaje.emisor}
             fecha={mensaje.fecha}
             usuarioActual={UserID}
+            isGroup={selectedChat.grupo}
+            nick={mensaje.nick}
           />
         ))}
       </div>
