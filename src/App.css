@@ -126,12 +126,6 @@
   border-bottom: 1px solid #ccc;
 }
 
-.messages {
-  padding: 20px;
-  overflow-y: auto;
-  flex: 1;
-}
-
 .input-box {
   display: flex;
   padding: 10px;
@@ -179,4 +173,48 @@ button {
   border-radius: 50%;
   object-fit: cover;
   margin-left: 10px; /* Añade espacio entre el contenido y el avatar */
+}
+/* Asegúrate de que los mensajes se alineen de manera correcta */
+.message {
+  max-width: 60%;
+  margin-bottom: 10px;
+  padding: 10px;
+  border-radius: 10px;
+  font-size: 18px;
+  display: flex;
+  gap: 5px;
+}
+
+.emisor {
+  align-self: flex-end; /* Alinea el mensaje del emisor a la derecha */
+  background-color: #d1f7c4; /* Color de fondo para el emisor */
+  text-align: right;
+}
+
+.receptor {
+  align-self: flex-start; /* Alinea el mensaje del receptor a la izquierda */
+  background-color: #e3e3e3; /* Color de fondo para el receptor */
+  text-align: left;
+}
+
+.contenido {
+  text-align: left;
+  margin-top: 0px;
+  margin-bottom: 0px;
+  flex-grow: 1;
+}
+
+.fecha {
+  font-size: 12px;
+  color: gray;
+  margin-top: 5px;
+  text-align: right;
+}
+
+/* Asegúrate de que los mensajes en el contenedor estén en una columna */
+.messages {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 10px;
 }
