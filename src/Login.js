@@ -67,11 +67,7 @@ if (sessionStorage.getItem("token")) {
       if (result.success) {
         messageElement.style.color = "green";
         messageElement.textContent = result.message;
-
-        // Redirect to index.html after 1 second
-        setTimeout(() => {
-          window.location.href = "main.html";
-        }, 1000); // Redirect after 1 second to give feedback
+        window.location.href = "main.html";
       } else {
         messageElement.style.color = "red";
         messageElement.textContent = result.message;
