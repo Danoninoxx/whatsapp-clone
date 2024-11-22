@@ -46,7 +46,7 @@ const login = async (email, password) => {
   }
 };
 if (sessionStorage.getItem("token")) {
-  window.location.href = "main.html";
+  window.location.href = "./main.html";
 } else {
   document
     .getElementById("loginForm")
