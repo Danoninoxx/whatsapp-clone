@@ -70,7 +70,7 @@ if (sessionStorage.getItem("token")) {
 
         // Redirect after 1 second
         setTimeout(() => {
-          window.location.href = "./main.html";
+          window.location.href = "/";
         }, 1000);
       } else {
         messageElement.style.color = "red";
