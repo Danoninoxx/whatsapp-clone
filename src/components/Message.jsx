@@ -14,7 +14,7 @@ function Message({ contenido, emisor, fecha, usuarioActual,isGroup,nick}) {
   if(isGroup){
     return (
       <div className={`message ${emisor === usuarioActual ? "emisor" : "receptor"}`}>
-        <p> {nick}</p>
+        <p className="nick"> {nick}</p>
         <p className="contenido">{contenido}</p>
         <p className="fecha">{fechaFormat}</p>
       </div>
