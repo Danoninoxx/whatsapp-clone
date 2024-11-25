@@ -20,6 +20,35 @@ function ChatWindow({ selectedChat }) {
   const [messages, setMessages] = useState([]);
   const [newMessage, setNewMessage] = useState("");
 
+  async function importarMensajes() {
+      
+    let { data} = await supabase
+    .from('vmesagges5')
+    .select('*')
+    .or(
+      selectedChat.grupo?`receptor.eq.${selectedChat.uid}`:`and(emisor.eq.${UserID},receptor.eq.${selectedChat.uid}),and(emisor.eq.${selectedChat.uid},receptor.eq.${UserID})`
+    )
+    .order("fecha", { ascending: true });
+    setMessages(data);
+
+  
+  /*
+  const { data:vmesagges5, error } = await supabase
+    .from("vmessages5")
+    .select("*")
+    .or(
+      `and(emisor.eq.${UserID},receptor.eq.${selectedChat.uid}),and(emisor.eq.${selectedChat.uid},receptor.eq.${UserID})`
+    )
+    .order("fecha", { ascending: true });
+
+  if (error) {
+    console.error("Error importando mensajes:", error.message);
+  } else {
+    setMessages(data);
+  }
+    */
+  }
+
   // Función para suscribirse a nuevos mensajes en tiempo real
   function subscribirseMensajes() {
     const canal = supabase
@@ -27,17 +56,17 @@ function ChatWindow({ selectedChat }) {
       .on(
         "postgres_changes",
         { event: "INSERT", schema: "public", table: "mensaje" },
-        (payload) => {
-          const nuevoMensaje = payload.new;
+        (/*payload*/) => { importarMensajes();
+          //const nuevoMensaje = payload.new;
           // Solo agregar el mensaje si es relevante para el chat actual
-          if (
+          /*if (
             (nuevoMensaje.emisor === UserID &&
               nuevoMensaje.receptor === selectedChat.uid) ||
             (nuevoMensaje.emisor === selectedChat.uid &&
               nuevoMensaje.receptor === UserID)
           ) {
             setMessages((prevMessages) => [...prevMessages, nuevoMensaje]);
-          }
+          }*/
         }
       )
       .subscribe();
@@ -51,34 +80,7 @@ function ChatWindow({ selectedChat }) {
   useEffect(() => {
     if (!selectedChat) return;
 
-    async function importarMensajes() {
-      
-          let { data} = await supabase
-          .from('vmesagges5')
-          .select('*')
-          .or(
-            selectedChat.grupo?`receptor.eq.${selectedChat.uid}`:`and(emisor.eq.${UserID},receptor.eq.${selectedChat.uid}),and(emisor.eq.${selectedChat.uid},receptor.eq.${UserID})`
-          )
-          .order("fecha", { ascending: true });
-          setMessages(data);
-
-        
-      /*
-      const { data:vmesagges5, error } = await supabase
-        .from("vmessages5")
-        .select("*")
-        .or(
-          `and(emisor.eq.${UserID},receptor.eq.${selectedChat.uid}),and(emisor.eq.${selectedChat.uid},receptor.eq.${UserID})`
-        )
-        .order("fecha", { ascending: true });
-
-      if (error) {
-        console.error("Error importando mensajes:", error.message);
-      } else {
-        setMessages(data);
-      }
-        */
-    }
+    
 
     importarMensajes();
     const unsubscribe = subscribirseMensajes();
