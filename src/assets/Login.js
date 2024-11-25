@@ -1,4 +1,5 @@
 const login = async (email, password) => {
+  console.log("Entra a login.js");
   const options = {
     method: "POST",
     headers: {
