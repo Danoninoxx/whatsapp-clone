@@ -46,7 +46,7 @@ const login = async (email, password) => {
   }
 };
 if (sessionStorage.getItem("token")) {
-  window.location.href = "./main.html";
+  window.location.href = "/";
 } else {
   document
     .getElementById("loginForm")
@@ -68,10 +68,10 @@ if (sessionStorage.getItem("token")) {
         messageElement.style.color = "green";
         messageElement.textContent = result.message;
 
-        // Redirect to index.html after 1 second
+        // Redirect after 1 second
         setTimeout(() => {
           window.location.href = "./main.html";
-        }, 1000); // Redirect after 1 second to give feedback
+        }, 1000);
       } else {
         messageElement.style.color = "red";
         messageElement.textContent = result.message;
